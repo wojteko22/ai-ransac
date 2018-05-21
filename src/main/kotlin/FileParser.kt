@@ -46,5 +46,3 @@ private fun keyPoints(pathname: String): List<KeyPoint> {
         KeyPoint(x, y, features)
     }
 }
-
-class KeyPoint(val x: Double, val y: Double, val features: List<Int>)
