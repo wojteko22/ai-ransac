@@ -1,8 +1,9 @@
 import java.io.File
 
-class Reader {
+class Reader(private val rootPathname: String) {
+
     fun keyPoints(pathname: String): List<KeyPoint> {
-        val file = File(pathname)
+        val file = File("$rootPathname/$pathname")
         val lines = file.readLines()
         val subList = lines.subList(2, lines.size)
         return subList.map {

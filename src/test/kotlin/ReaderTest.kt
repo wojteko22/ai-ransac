@@ -9,9 +9,9 @@ internal class ReaderTest {
             KeyPoint(0.0, 0.0, listOf(1, 2)),
             KeyPoint(0.0, 0.0, listOf(3, 4))
         )
-        val reader = Reader()
+        val reader = Reader("src/test/resources")
 
-        val keyPoints = reader.keyPoints("src/test/resources/test1.png.haraff.sift")
+        val keyPoints = reader.keyPoints("test1.png.haraff.sift")
 
         assertThat(keyPoints).isEqualTo(expectedKeyPoints)
     }

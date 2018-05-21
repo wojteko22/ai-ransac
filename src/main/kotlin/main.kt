@@ -1,12 +1,11 @@
 const val featuresCount = 128
 
 fun main(args: Array<String>) {
-    val rootPath = "src/main/resources"
-    val firstFileName = "DSC_5824"
-    val secondFileName = "DSC_5825"
-    val reader = Reader()
-    val keyPoints1 = reader.keyPoints("$rootPath/$firstFileName.png.haraff.sift")
-    val keyPoints2 = reader.keyPoints("$rootPath/$secondFileName.png.haraff.sift")
+    val firstFileName = "DSC_5824.png.haraff.sift"
+    val secondFileName = "DSC_5825.png.haraff.sift"
+    val reader = Reader("src/main/resources")
+    val keyPoints1 = reader.keyPoints(firstFileName)
+    val keyPoints2 = reader.keyPoints(secondFileName)
     println("$firstFileName $secondFileName")
     val indexes1 = keyPoints1.map { findClosestIndex(it, keyPoints2) }
     val indexes2 = keyPoints2.map { findClosestIndex(it, keyPoints1) }
