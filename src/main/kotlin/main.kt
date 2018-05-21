@@ -6,12 +6,7 @@ fun main(args: Array<String>) {
     val picture2 = reader.keyPoints(secondFileName)
     println("$firstFileName $secondFileName")
 
-    val indexes1 = picture1.respectivelyClosestIndexesIn(picture2)
-    val indexes2 = picture2.respectivelyClosestIndexesIn(picture1)
-
-    indexes1.forEachIndexed { index, indexOfClosest ->
-        if (indexes2[indexOfClosest] == index) {
-            println("$index $indexOfClosest")
-        }
+    picture1.indexesPairs(picture2).forEach {
+        println("${it.first} ${it.second}")
     }
 }

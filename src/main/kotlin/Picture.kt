@@ -1,5 +1,17 @@
 data class Picture(private val keyPoints: List<KeyPoint>) {
 
+    fun indexesPairs(picture: Picture): List<Pair<Int, Int>> {
+        val indexes1 = respectivelyClosestIndexesIn(picture)
+        val indexes2 = picture.respectivelyClosestIndexesIn(this)
+        return indexes1.mapIndexedNotNull { index, indexOfClosest ->
+            if (indexes2[indexOfClosest] == index) {
+                Pair(index, indexOfClosest)
+            } else {
+                null
+            }
+        }
+    }
+
     fun respectivelyClosestIndexesIn(picture: Picture) = keyPoints.map {
         findClosestIndex(it, picture.keyPoints)
     }
