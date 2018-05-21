@@ -5,14 +5,14 @@ internal class ReaderTest {
 
     @Test
     fun keyPoints() {
-        val expectedKeyPoints = listOf(
+        val expectedPicture = Picture(listOf(
             KeyPoint(0.0, 0.0, listOf(1, 2)),
             KeyPoint(0.0, 0.0, listOf(3, 4))
-        )
+        ))
         val reader = Reader("src/test/resources")
 
-        val keyPoints = reader.keyPoints("test1.png.haraff.sift")
+        val picture = reader.keyPoints("test1.png.haraff.sift")
 
-        assertThat(keyPoints).isEqualTo(expectedKeyPoints)
+        assertThat(picture).isEqualTo(expectedPicture)
     }
 }
