@@ -1,5 +1,3 @@
-const val featuresCount = 128
-
 fun main(args: Array<String>) {
     val firstFileName = "DSC_5824.png.haraff.sift"
     val secondFileName = "DSC_5825.png.haraff.sift"

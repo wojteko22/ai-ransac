@@ -13,7 +13,7 @@ data class Picture(private val keyPoints: List<KeyPoint>) {
     }
 
     private fun distance(point1: KeyPoint, point2: KeyPoint): Double {
-        val sum = (0 until featuresCount).map {
+        val sum = (0 until point1.size).map {
             val difference = point1.features[it] - point2.features[it]
             Math.pow(difference.toDouble(), 2.0)
         }.sum()
