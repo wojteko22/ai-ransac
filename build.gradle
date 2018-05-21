@@ -1,5 +1,8 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext {
+        kotlin_version = '1.2.41'
+        junit_version = '5.1.0'
+    }
 
     repositories {
         mavenCentral()
@@ -20,6 +23,15 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testImplementation 'org.assertj:assertj-core:3.9.0'
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 compileKotlin {
