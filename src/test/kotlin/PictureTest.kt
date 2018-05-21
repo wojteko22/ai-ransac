@@ -3,30 +3,43 @@ import org.junit.jupiter.api.Test
 
 internal class PictureTest {
 
-    @Test
-    fun respectivelyClosestIndexesIn() {
-        val picture1 = picture(
-            listOf(
-                listOf(1, 1, 1),
-                listOf(5, 5, 5)
-            )
+    private val picture1 = picture(
+        listOf(
+            listOf(1, 1, 1),
+            listOf(5, 5, 5),
+            listOf(8, 8, 8)
         )
-        val picture2 = picture(
-            listOf(
-                listOf(3, 3, 3),
-                listOf(2, 2, 2),
-                listOf(6, 6, 6)
-            )
+    )
+    private val picture2 = picture(
+        listOf(
+            listOf(3, 3, 3),
+            listOf(2, 2, 2),
+            listOf(6, 6, 6)
         )
-
-        val indexes = picture1.respectivelyClosestIndexesIn(picture2)
-
-        assertThat(indexes).isEqualTo(
-            listOf(1, 2)
-        )
-    }
+    )
 
     private fun picture(features: List<List<Int>>) = Picture(
         features.map { KeyPoint(0.0, 0.0, it) }
     )
+
+    @Test
+    fun respectivelyClosestIndexesIn() {
+        val indexes = picture1.respectivelyClosestIndexesIn(picture2)
+
+        assertThat(indexes).isEqualTo(
+            listOf(1, 2, 2)
+        )
+    }
+
+    @Test
+    fun indexesPairs() {
+        val indexesPairs = picture1.indexesPairs(picture2)
+
+        assertThat(indexesPairs).isEqualTo(
+            listOf(
+                0 to 1,
+                1 to 2
+            )
+        )
+    }
 }
