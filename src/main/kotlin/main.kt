@@ -1,18 +1,24 @@
 import kotlin.system.measureTimeMillis
 
+private val io = FileHelper()
+private const val resultPathname = "result2.json"
+
 fun main(args: Array<String>) {
     val millis = measureTimeMillis {
-        printPairs("DSC_5824.png.haraff.sift", "DSC_5825.png.haraff.sift")
+        savePairs("DSC_5824.png.haraff.sift", "DSC_5825.png.haraff.sift")
+        readPairs()
     }
     println("millis: $millis")
 }
 
-private fun printPairs(fileName1: String, fileName2: String) {
-    val reader = Reader()
-    val picture1 = reader.keyPoints(fileName1)
-    val picture2 = reader.keyPoints(fileName2)
-    println("$fileName1 $fileName2")
-    picture1.keyPointsPairs(picture2).forEach {
-        println("${it.first} ${it.second}")
-    }
+private fun readPairs() {
+    val keyPointsPairs = io.keyPointsPairs(resultPathname)!!
+    println(keyPointsPairs[0].first)
+}
+
+private fun savePairs(fileName1: String, fileName2: String) {
+    val picture1 = io.keyPoints(fileName1)
+    val picture2 = io.keyPoints(fileName2)
+    val pairs = picture1.keyPointsPairs(picture2)
+    io.save(resultPathname, pairs)
 }
