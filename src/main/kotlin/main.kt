@@ -1,5 +1,10 @@
+import kotlin.system.measureTimeMillis
+
 fun main(args: Array<String>) {
-    printPairs("DSC_5824.png.haraff.sift", "DSC_5825.png.haraff.sift")
+    val millis = measureTimeMillis {
+        printPairs("DSC_5824.png.haraff.sift", "DSC_5825.png.haraff.sift")
+    }
+    println("millis: $millis")
 }
 
 private fun printPairs(fileName1: String, fileName2: String) {

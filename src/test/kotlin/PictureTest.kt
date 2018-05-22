@@ -23,15 +23,6 @@ internal class PictureTest {
     )
 
     @Test
-    fun respectivelyClosestIndexesIn() {
-        val indexes = picture1.respectivelyClosestIndexesIn(picture2)
-
-        assertThat(indexes).isEqualTo(
-            listOf(1, 2, 2)
-        )
-    }
-
-    @Test
     fun indexesPairs() {
         val indexesPairs = picture1.indexesPairs(picture2)
 
