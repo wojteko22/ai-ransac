@@ -5,7 +5,7 @@ import java.io.File
 internal class FileHelperTest {
 
     private val rootPathname = "src/test/resources"
-    private val reader = FileHelper(rootPathname)
+    private val io = FileHelper(rootPathname)
 
     @Test
     fun keyPoints() {
@@ -16,7 +16,7 @@ internal class FileHelperTest {
             )
         )
 
-        val picture = reader.keyPoints("test1.png.haraff.sift")
+        val picture = io.keyPoints("test1.png.haraff.sift")
 
         assertThat(picture).isEqualTo(expectedPicture)
     }
@@ -28,11 +28,23 @@ internal class FileHelperTest {
         val file = File("$rootPathname/$pathname")
         val expectedJson = File("$rootPathname/expected.json").readText()
 
-        reader.save(pathname, content)
+        io.save(pathname, content)
         val json = file.readText()
 
         assertThat(json).isEqualToIgnoringNewLines(expectedJson)
 
         file.delete()
+    }
+
+    @Test
+    fun pointsPairs() {
+        val expectedPairs = listOf(
+            Point(1.1, 1.1) to Point(2.2, 2.2),
+            Point(3.3, 3.3) to Point(4.4, 4.4)
+        )
+
+        val pairs = io.pointsPairs("pairs.json")
+
+        assertThat(pairs).isEqualTo(expectedPairs)
     }
 }

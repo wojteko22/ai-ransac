@@ -12,7 +12,7 @@ fun main(args: Array<String>) {
 }
 
 private fun readPairs() {
-    val keyPointsPairs = io.keyPointsPairs(resultPathname)!!
+    val keyPointsPairs = io.pointsPairs(resultPathname)!!
     println(keyPointsPairs[0].first)
 }
 

@@ -34,7 +34,7 @@ class FileHelper(private val rootPathname: String = "src/main/resources") {
         writer.close()
     }
 
-    fun keyPointsPairs(pathname: String): List<Pair<KeyPoint, KeyPoint>>? {
+    fun pointsPairs(pathname: String): List<Pair<Point, Point>>? {
         val reader = FileReader("$rootPathname/$pathname")
         return Gson().fromJson(reader)
     }
