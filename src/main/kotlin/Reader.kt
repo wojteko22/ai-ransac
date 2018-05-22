@@ -1,6 +1,6 @@
 import java.io.File
 
-class Reader(private val rootPathname: String) {
+class Reader(private val rootPathname: String = "src/main/resources") {
 
     fun keyPoints(pathname: String): Picture {
         val file = File("$rootPathname/$pathname")
