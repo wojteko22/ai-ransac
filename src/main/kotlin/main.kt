@@ -12,7 +12,7 @@ private fun printPairs(fileName1: String, fileName2: String) {
     val picture1 = reader.keyPoints(fileName1)
     val picture2 = reader.keyPoints(fileName2)
     println("$fileName1 $fileName2")
-    picture1.indexesPairs(picture2).forEach {
+    picture1.keyPointsPairs(picture2).forEach {
         println("${it.first} ${it.second}")
     }
 }

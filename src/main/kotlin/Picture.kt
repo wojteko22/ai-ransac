@@ -3,7 +3,13 @@ import kotlinx.coroutines.experimental.runBlocking
 
 data class Picture(private val keyPoints: List<KeyPoint>) {
 
-    fun indexesPairs(picture: Picture): List<Pair<Int, Int>> = runBlocking {
+    fun keyPointsPairs(picture: Picture): List<Pair<KeyPoint, KeyPoint>> = indexesPairs(picture).map {
+        val first = keyPoints[it.first]
+        val second = picture.keyPoints[it.second]
+        Pair(first, second)
+    }
+
+    private fun indexesPairs(picture: Picture): List<Pair<Int, Int>> = runBlocking {
         val indexes1 = respectivelyClosestIndexesIn(picture)
         val indexes2 = picture.respectivelyClosestIndexesIn(this@Picture)
         indexes1.mapIndexedNotNull { index, indexOfClosest ->
