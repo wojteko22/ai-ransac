@@ -47,4 +47,18 @@ internal class FileHelperTest {
 
         assertThat(pairs).isEqualTo(expectedPairs)
     }
+
+    @Test
+    fun savePairs() {
+        val pathname = "auto-deleting.json"
+        val file = File("$rootPathname/$pathname")
+        val expectedJson = File("$rootPathname/expected-pairs.json").readText()
+
+        io.savePairs("1.png.haraff.sift", "2.png.haraff.sift", pathname)
+        val json = file.readText()
+
+        assertThat(json).isEqualToIgnoringNewLines(expectedJson)
+
+        file.delete()
+    }
 }
