@@ -8,6 +8,23 @@ import java.io.FileWriter
 
 class FileHelper(private val rootPathname: String = "src/main/resources") {
 
+    fun readPairs(pathname: String) {
+        val keyPointsPairs = pointsPairs(pathname)!!
+        println(keyPointsPairs[0].first)
+    }
+
+    fun pointsPairs(pathname: String): List<Pair<Point, Point>>? {
+        val reader = FileReader("$rootPathname/$pathname")
+        return Gson().fromJson(reader)
+    }
+
+    fun savePairs(fileName1: String, fileName2: String, resultPathname: String) {
+        val picture1 = keyPoints(fileName1)
+        val picture2 = keyPoints(fileName2)
+        val pairs = picture1.keyPointsPairs(picture2)
+        save(resultPathname, pairs)
+    }
+
     fun keyPoints(pathname: String): Picture {
         val file = File("$rootPathname/$pathname")
         val lines = file.readLines()
@@ -32,10 +49,5 @@ class FileHelper(private val rootPathname: String = "src/main/resources") {
         }
         writer.endArray()
         writer.close()
-    }
-
-    fun pointsPairs(pathname: String): List<Pair<Point, Point>>? {
-        val reader = FileReader("$rootPathname/$pathname")
-        return Gson().fromJson(reader)
     }
 }
