@@ -1,3 +1,6 @@
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
+
 data class Picture(private val keyPoints: List<KeyPoint>) {
 
     fun indexesPairs(picture: Picture): List<Pair<Int, Int>> {
@@ -12,8 +15,12 @@ data class Picture(private val keyPoints: List<KeyPoint>) {
         }
     }
 
-    fun respectivelyClosestIndexesIn(picture: Picture) = keyPoints.map {
-        findClosestIndex(it, picture.keyPoints)
+    fun respectivelyClosestIndexesIn(picture: Picture) = runBlocking {
+        keyPoints.map {
+            async {
+                findClosestIndex(it, picture.keyPoints)
+            }
+        }.map { it.await() }
     }
 
     private fun findClosestIndex(point: KeyPoint, keyPoints: List<KeyPoint>): Int {
