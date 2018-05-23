@@ -25,6 +25,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
+    implementation group: 'org.ejml', name: 'ejml-all', version: '0.34'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testImplementation 'org.assertj:assertj-core:3.9.0'
