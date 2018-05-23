@@ -5,25 +5,11 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 
-
-class FileHelper(private val rootPathname: String = "src/main/resources") {
-
-    fun saveConsistentPairs(pairsPathname: String, destPathname: String, neighborhoodSize: Int, threshold: Double) {
-        val pairs = pointsPairs(pairsPathname)!!
-        val consistentPairs = PairsProcessor.consistentPairs(pairs, neighborhoodSize, threshold)
-        save(destPathname, consistentPairs)
-    }
+class FileHelper(private val rootPathname: String) {
 
     fun pointsPairs(pathname: String): List<Pair<Point, Point>>? {
         val reader = FileReader("$rootPathname/$pathname")
         return Gson().fromJson(reader)
-    }
-
-    fun savePairs(fileName1: String, fileName2: String, resultPathname: String) {
-        val picture1 = keyPoints(fileName1)
-        val picture2 = keyPoints(fileName2)
-        val pairs = picture1.keyPointsPairs(picture2)
-        save(resultPathname, pairs)
     }
 
     fun keyPoints(pathname: String): Picture {
