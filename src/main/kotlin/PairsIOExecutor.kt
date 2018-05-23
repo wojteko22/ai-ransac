@@ -1,4 +1,4 @@
-class PairsIOExecutor(rootPathname: String = "src/main/resources") {
+class PairsIOExecutor(rootPathname: String) {
 
     private val io = FileHelper(rootPathname)
 
