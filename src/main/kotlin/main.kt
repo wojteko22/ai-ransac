@@ -1,6 +1,6 @@
 import kotlin.system.measureTimeMillis
 
-private const val pairsPathname = "result2.json"
+private const val pairsPathname = "pairs2.json"
 
 fun main(args: Array<String>) {
     val io = FileHelper()
