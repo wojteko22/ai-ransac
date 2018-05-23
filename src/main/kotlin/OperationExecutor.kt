@@ -44,6 +44,7 @@ class OperationExecutor(rootPathname: String) {
     }
 
     fun testRansac(pairsFileName: String, maxError: Int, iterationsCount: Int) {
+        // TODO: Zrobić coś sensownego może
         val pointsPairs = io.pointsPairs("$pairsFileName.json")
         val matrix = Ransac.bestModel(pointsPairs, maxError, iterationsCount)
         println(matrix)
