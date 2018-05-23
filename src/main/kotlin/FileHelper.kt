@@ -8,11 +8,10 @@ import java.io.FileWriter
 
 class FileHelper(private val rootPathname: String = "src/main/resources") {
 
-    fun consistentPairs(pathname: String, neighborhoodSize: Int, threshold: Double) {
+    fun saveConsistentPairs(pathname: String, destPathname: String, neighborhoodSize: Int, threshold: Double) {
         val pairs = pointsPairs(pathname)!!
         val consistentPairs = PairsProcessor.consistentPairs(pairs, neighborhoodSize, threshold)
-        println("${pairs.size} ${consistentPairs.size}")
-        // TODO: Zmienić na coś praktycznego
+        save(destPathname, consistentPairs)
     }
 
     fun pointsPairs(pathname: String): List<Pair<Point, Point>>? {

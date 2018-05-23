@@ -4,7 +4,7 @@ import java.io.File
 
 internal class FileHelperTest {
 
-    private val rootPathname = "src/test/resources"
+    private val rootPathname = "src/test/resources/FileHelper"
     private val io = FileHelper(rootPathname)
 
     @Test
@@ -60,5 +60,10 @@ internal class FileHelperTest {
         assertThat(json).isEqualToIgnoringNewLines(expectedJson)
 
         file.delete()
+    }
+
+    @Test
+    fun saveConsistentPairs() {
+        // TODO:
     }
 }
