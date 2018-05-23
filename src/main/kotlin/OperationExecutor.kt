@@ -42,4 +42,10 @@ class OperationExecutor(rootPathname: String) {
         }
         io.saveImage(newImage, "$pairsFileName.png")
     }
+
+    fun testRansac(pairsFileName: String, maxError: Int, iterationsCount: Int) {
+        val pointsPairs = io.pointsPairs("$pairsFileName.json")
+        val matrix = Ransac.bestModel(pointsPairs, maxError, iterationsCount)
+        println(matrix)
+    }
 }
