@@ -50,20 +50,29 @@ internal class FileHelperTest {
 
     @Test
     fun savePairs() {
-        val pathname = "auto-deleting.json"
-        val file = File("$rootPathname/$pathname")
+        val resultPathname = "auto-deleting.json"
+        val resultFile = File("$rootPathname/$resultPathname")
         val expectedJson = File("$rootPathname/expected-pairs.json").readText()
 
-        io.savePairs("1.png.haraff.sift", "2.png.haraff.sift", pathname)
-        val json = file.readText()
+        io.savePairs("1.png.haraff.sift", "2.png.haraff.sift", resultPathname)
+        val json = resultFile.readText()
 
         assertThat(json).isEqualToIgnoringNewLines(expectedJson)
 
-        file.delete()
+        resultFile.delete()
     }
 
     @Test
     fun saveConsistentPairs() {
-        // TODO:
+        val resultPathname = "auto-deleting.json"
+        val resultFile = File("$rootPathname/$resultPathname")
+        val expectedJson = File("$rootPathname/expected-consistent-pairs.json").readText()
+
+        io.saveConsistentPairs("all-pairs.json", resultPathname, 1, 0.9)
+        val json = resultFile.readText()
+
+        assertThat(json).isEqualToIgnoringNewLines(expectedJson)
+
+        resultFile.delete()
     }
 }
