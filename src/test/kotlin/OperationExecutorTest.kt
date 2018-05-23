@@ -2,10 +2,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.io.File
 
-internal class PairsIOExecutorTest {
+internal class OperationExecutorTest {
 
-    private val rootPathname = "src/test/resources/PairsIOExecutor"
-    private val io = PairsIOExecutor(rootPathname)
+    private val rootPathname = "src/test/resources/OperationExecutor"
+    private val io = OperationExecutor(rootPathname)
 
     @Test
     fun savePairs() {
