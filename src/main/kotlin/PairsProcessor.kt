@@ -10,7 +10,7 @@ object PairsProcessor {
         val consistentNeighboursCount = neighboursOfFirstWithFriends.count {
             neighboursOfSecond.contains(it.second)
         }
-        consistentNeighboursCount.toDouble() / neighborhoodSize > threshold
+        consistentNeighboursCount.toDouble() / neighborhoodSize >= threshold
     }
 
     private fun neighborsWithFriends(
