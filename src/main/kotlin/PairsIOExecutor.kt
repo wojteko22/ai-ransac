@@ -3,7 +3,7 @@ class PairsIOExecutor(rootPathname: String) {
     private val io = FileHelper(rootPathname)
 
     fun saveConsistentPairs(pairsPathname: String, destPathname: String, neighborhoodSize: Int, threshold: Double) {
-        val pairs = io.pointsPairs(pairsPathname)!!
+        val pairs = io.pointsPairs(pairsPathname)
         val consistentPairs = PairsProcessor.consistentPairs(pairs, neighborhoodSize, threshold)
         io.save(destPathname, consistentPairs)
     }

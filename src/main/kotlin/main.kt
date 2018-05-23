@@ -1,33 +1,48 @@
 import java.awt.Color
 import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
+import kotlin.math.roundToInt
 
 private const val neighborhoodSize = 4
 private const val threshold = 0.6
 private const val pairsPathname = "pairs2.json"
+private const val image1 = "DSC_5824.png"
+private const val image2 = "DSC_5825.png"
+private const val resultImage = "my.png"
 private const val consistentPairsPathname = "consistent2,n=$neighborhoodSize,t=$threshold.json"
 
 private const val resourcesPathname = "src/main/resources"
-private val io = PairsIOExecutor(resourcesPathname)
+private val executor = PairsIOExecutor(resourcesPathname)
+private val io = FileHelper(resourcesPathname)
 
 fun main(args: Array<String>) {
     doSomethingWithPairs()
-    doSomethingWithImages()
+    drawLines(image1, image2, resultImage)
 }
 
 private fun doSomethingWithPairs() {
-    io.savePairs("DSC_5824.png.haraff.sift", "DSC_5825.png.haraff.sift", pairsPathname)
-    io.saveConsistentPairs(pairsPathname, consistentPairsPathname, neighborhoodSize, threshold)
+    executor.savePairs("$image1.haraff.sift", "$image2.haraff.sift", pairsPathname)
+    executor.saveConsistentPairs(pairsPathname, consistentPairsPathname, neighborhoodSize, threshold)
 }
 
-private fun doSomethingWithImages() {
-    val srcImage = ImageIO.read(File("$resourcesPathname/DSC_5824.png"))
-    val newImage = BufferedImage(srcImage.width, srcImage.height, BufferedImage.TYPE_INT_ARGB)
+private fun drawLines(pathname1: String, pathname2: String, resultPathname: String) {
+    val firstImage = io.image(pathname1)
+    val secondImage = io.image(pathname2)
+    val newImage = BufferedImage(firstImage.width, firstImage.height + secondImage.height, BufferedImage.TYPE_INT_ARGB)
     with(newImage.graphics) {
-        drawImage(srcImage, 0, 0, null)
+        drawImage(firstImage, 0, 0, null)
+        drawImage(secondImage, 0, firstImage.height, null)
         color = Color.RED
-        fillOval(0, 0, 300, 300)
+        val pairs = io.pointsPairs(consistentPairsPathname)
+        pairs.forEach {
+            val firstPoint = it.first
+            val secondPoint = it.second
+            drawLine(
+                firstPoint.x.roundToInt(),
+                firstPoint.y.roundToInt(),
+                secondPoint.x.roundToInt(),
+                firstImage.height + secondPoint.y.roundToInt()
+            )
+        }
     }
-    ImageIO.write(newImage, "png", File("$resourcesPathname/my.png"))
+    io.saveImage(newImage, resultPathname)
 }

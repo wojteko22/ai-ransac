@@ -1,13 +1,15 @@
 import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import java.awt.image.BufferedImage
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
+import javax.imageio.ImageIO
 
 class FileHelper(private val rootPathname: String) {
 
-    fun pointsPairs(pathname: String): List<Pair<Point, Point>>? {
+    fun pointsPairs(pathname: String): List<Pair<Point, Point>> {
         val reader = FileReader("$rootPathname/$pathname")
         return Gson().fromJson(reader)
     }
@@ -36,5 +38,15 @@ class FileHelper(private val rootPathname: String) {
         }
         writer.endArray()
         writer.close()
+    }
+
+    fun image(pathname: String): BufferedImage {
+        val file = File("$rootPathname/$pathname")
+        return ImageIO.read(file)
+    }
+
+    fun saveImage(image: BufferedImage, pathname: String) {
+        val file = File("$rootPathname/$pathname")
+        ImageIO.write(image, "png", file)
     }
 }
