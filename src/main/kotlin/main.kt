@@ -15,5 +15,5 @@ fun main(args: Array<String>) {
     executor.savePairs("haraff/$image1", "haraff/$image2", pairsPath)
     executor.saveConsistentPairs(pairsPath, consistentPairsPath, neighborhoodSize, threshold)
     executor.drawLines("images/$image1", "images/$image2", pairsPath, "visualization/$pairsFileName")
-    executor.testRansac(pairsFileName, 30, 3)
+    executor.useRansac(pairsPath, 30, 3, "ransac/$pairsFileName")
 }

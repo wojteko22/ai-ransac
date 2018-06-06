@@ -2,7 +2,14 @@ import org.ejml.simple.SimpleMatrix
 
 object Ransac {
 
-    fun bestModel(pairs: List<Pair<Point, Point>>, maxError: Int, iterationsCount: Int): SimpleMatrix? {
+    fun filterWithRansac(pairs: List<Pair<Point, Point>>, maxError: Int, iterationsCount: Int): List<Pair<Point, Point>> {
+        val model = bestModel(pairs, maxError, iterationsCount)
+        return pairs.filter {
+            modelError(model, it) < maxError
+        }
+    }
+
+    private fun bestModel(pairs: List<Pair<Point, Point>>, maxError: Int, iterationsCount: Int): SimpleMatrix {
         var bestModel: SimpleMatrix? = null
         var bestScore = 0
         repeat(iterationsCount) {
@@ -22,7 +29,11 @@ object Ransac {
                 bestModel = model
             }
         }
-        return bestModel
+        return bestModel!!
+    }
+
+    private fun perspectiveTransform(pairs: List<Pair<Point, Point>>): SimpleMatrix? {
+        TODO()
     }
 
     private fun affineTransform(pairs: List<Pair<Point, Point>>): SimpleMatrix? {
