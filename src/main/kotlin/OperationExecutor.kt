@@ -19,7 +19,7 @@ class OperationExecutor(rootPathname: String) {
         io.save("$resultFileName.json", pairs)
     }
 
-    fun drawLines(image1Pathname: String, image2Pathname: String, pairsFileName: String) {
+    fun drawLines(image1Pathname: String, image2Pathname: String, pairsFileName: String, destFileName: String = pairsFileName) {
         val firstImage = io.image(image1Pathname)
         val secondImage = io.image(image2Pathname)
         val newImage =
@@ -40,7 +40,7 @@ class OperationExecutor(rootPathname: String) {
                 )
             }
         }
-        io.saveImage(newImage, "$pairsFileName.png")
+        io.saveImage(newImage, "$destFileName.png")
     }
 
     fun testRansac(pairsFileName: String, maxError: Int, iterationsCount: Int) {

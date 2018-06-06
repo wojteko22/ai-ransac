@@ -14,8 +14,8 @@ class FileHelper(private val rootPathname: String) {
         return Gson().fromJson(reader)
     }
 
-    fun keyPoints(pathname: String): Picture {
-        val file = File("$rootPathname/$pathname")
+    fun keyPoints(fileName: String): Picture {
+        val file = File("$rootPathname/$fileName.haraff.sift")
         val lines = file.readLines()
         val subList = lines.subList(2, lines.size)
         val keyPoints = subList.map {

@@ -16,7 +16,7 @@ internal class FileHelperTest {
             )
         )
 
-        val picture = io.keyPoints("test1.png.haraff.sift")
+        val picture = io.keyPoints("test1.png")
 
         assertThat(picture).isEqualTo(expectedPicture)
     }

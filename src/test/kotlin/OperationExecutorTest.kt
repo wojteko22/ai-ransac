@@ -13,7 +13,7 @@ internal class OperationExecutorTest {
         val resultFile = File("$rootPathname/$resultFilename.json")
         val expectedJson = File("$rootPathname/expected-pairs.json").readText()
 
-        executor.savePairs("1.png.haraff.sift", "2.png.haraff.sift", resultFilename)
+        executor.savePairs("1.png", "2.png", resultFilename)
         val json = resultFile.readText()
 
         assertThat(json).isEqualToIgnoringNewLines(expectedJson)
