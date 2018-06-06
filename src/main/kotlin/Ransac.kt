@@ -2,20 +2,30 @@ import org.ejml.simple.SimpleMatrix
 
 object Ransac {
 
-    fun filterWithRansac(pairs: List<Pair<Point, Point>>, maxError: Int, iterationsCount: Int): List<Pair<Point, Point>> {
-        val model = bestModel(pairs, maxError, iterationsCount)
+    fun filterWithRansac(
+        pairs: List<Pair<Point, Point>>,
+        maxError: Int,
+        iterationsCount: Int,
+        heuristics: Heuristics
+    ): List<Pair<Point, Point>> {
+        val model = bestModel(pairs, maxError, iterationsCount, heuristics)
         return pairs.filter {
             modelError(model, it) < maxError
         }
     }
 
-    private fun bestModel(pairs: List<Pair<Point, Point>>, maxError: Int, iterationsCount: Int): SimpleMatrix {
+    private fun bestModel(
+        pairs: List<Pair<Point, Point>>,
+        maxError: Int,
+        iterationsCount: Int,
+        heuristics: Heuristics
+    ): SimpleMatrix {
         var bestModel: SimpleMatrix? = null
         var bestScore = 0
         repeat(iterationsCount) {
             var model: SimpleMatrix? = null
             while (model == null) {
-                model = affineTransform(pairs)
+                model = affineTransform(pairs, heuristics)
             }
             var score = 0
             for (data in pairs) {
@@ -36,14 +46,14 @@ object Ransac {
         TODO()
     }
 
-    private fun affineTransform(pairs: List<Pair<Point, Point>>): SimpleMatrix? {
-        val shuffledPairs = pairs.shuffled()
-        val point1OfFirst = shuffledPairs[0].first
-        val point2OfFirst = shuffledPairs[1].first
-        val point3OfFirst = shuffledPairs[2].first
-        val point1OfSecond = shuffledPairs[0].second
-        val point2OfSecond = shuffledPairs[1].second
-        val point3OfSecond = shuffledPairs[2].second
+    private fun affineTransform(pairs: List<Pair<Point, Point>>, heuristics: Heuristics): SimpleMatrix? {
+        val selectedPairs = heuristics.selectedPairs(pairs)
+        val point1OfFirst = selectedPairs[0].first
+        val point2OfFirst = selectedPairs[1].first
+        val point3OfFirst = selectedPairs[2].first
+        val point1OfSecond = selectedPairs[0].second
+        val point2OfSecond = selectedPairs[1].second
+        val point3OfSecond = selectedPairs[2].second
         val firstMatrix = SimpleMatrix(
             6, 6, true,
             doubleArrayOf(

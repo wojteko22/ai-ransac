@@ -28,6 +28,10 @@ class FileHelper(private val rootPathname: String) {
         return Picture(keyPoints)
     }
 
+    fun saveJson(pathname: String, toSave: List<Any?>) {
+        save("$pathname.json", toSave)
+    }
+
     fun save(pathname: String, toSave: List<Any?>) {
         val fileWriter = FileWriter("$rootPathname/$pathname")
         val gson = GsonBuilder().setPrettyPrinting().create()

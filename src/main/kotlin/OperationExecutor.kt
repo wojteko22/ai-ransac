@@ -43,9 +43,15 @@ class OperationExecutor(rootPathname: String) {
         io.saveImage(newImage, "$destFileName.png")
     }
 
-    fun useRansac(pairsFileName: String, maxError: Int, iterationsCount: Int, destPath: String) {
+    fun useRansac(
+        pairsFileName: String,
+        maxError: Int,
+        iterationsCount: Int,
+        destPath: String,
+        heuristics: Heuristics
+    ) {
         val pointsPairs = io.pointsPairs("$pairsFileName.json")
-        val newPairs = Ransac.filterWithRansac(pointsPairs, maxError, iterationsCount)
-        io.save("${destPath}_m=$maxError,i=$iterationsCount", newPairs)
+        val newPairs = Ransac.filterWithRansac(pointsPairs, maxError, iterationsCount, heuristics)
+        io.saveJson(destPath, newPairs)
     }
 }
