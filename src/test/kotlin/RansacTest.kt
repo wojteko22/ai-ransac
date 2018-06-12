@@ -20,8 +20,8 @@ internal class RansacTest {
             )
         )
 
-        val bestModel = Ransac.bestModel(input, 30, 1)
-        val sameAsExpected = bestModel?.isIdentical(expectedModel, 0.001)
+        val bestModel = Ransac.bestModel(input, 30, 1, VerySimpleHeuristics())
+        val sameAsExpected = bestModel.isIdentical(expectedModel, 0.001)
 
         assertThat(sameAsExpected).isTrue()
     }

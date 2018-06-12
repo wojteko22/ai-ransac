@@ -14,7 +14,7 @@ object Ransac {
         }
     }
 
-    private fun bestModel(
+    fun bestModel(
         pairs: List<Pair<Point, Point>>,
         maxError: Int,
         iterationsCount: Int,
