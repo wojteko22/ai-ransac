@@ -1,12 +1,14 @@
+import kotlin.system.measureTimeMillis
+
 private val names = listOf("kaczka", "kubek", "muza", "mysz", "radek")
 
 private const val neighborhoodSize = 5
 private const val threshold = 0.6
 private val pairsFileName = names[1]
-private const val r = 7.0
+private const val r = 4.0
 private const val R = 220.0
 private const val maxError = 20
-private const val iterationsCount = 1000000
+private const val iterationsCount = 1000
 
 private val pairsPath = "all/$pairsFileName"
 private val image1 = "${pairsFileName}1.png"
@@ -20,8 +22,13 @@ fun main(args: Array<String>) {
 //    executor.saveConsistentPairs(pairsPath, consistentPairsPath, neighborhoodSize, threshold)
 //    executor.countPairs(consistentPairsPath)
 //    drawSomething(consistentPairsPath)
-    useRansacWithVerySimpleHeuristics()
-//    useRansacWithSimpleHeuristics(r, R)
+//    measure { useRansacWithVerySimpleHeuristics() }
+    measure { useRansacWithSimpleHeuristics(r, R) }
+}
+
+private fun measure(function: () -> Unit) {
+    val millis = measureTimeMillis { function() }
+    println("millis: $millis")
 }
 
 private fun drawSomething(pairsPath: String) {
@@ -30,7 +37,7 @@ private fun drawSomething(pairsPath: String) {
 
 private fun useRansacWithVerySimpleHeuristics() {
     val heuristics = VerySimpleHeuristics()
-    val pairsPath =  useRansac(heuristics)
+    val pairsPath = useRansac(heuristics)
     drawRansacLines(pairsPath)
 }
 
