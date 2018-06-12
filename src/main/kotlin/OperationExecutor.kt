@@ -12,6 +12,11 @@ class OperationExecutor(rootPathname: String) {
         io.save("$destFileName.json", consistentPairs)
     }
 
+    fun countPairs(pairsFileName: String) {
+        val pairs = io.pointsPairs("$pairsFileName.json")
+        println(pairs.size)
+    }
+
     fun savePairs(fileName1: String, fileName2: String, resultFileName: String) {
         val picture1 = io.keyPoints(fileName1)
         val picture2 = io.keyPoints(fileName2)

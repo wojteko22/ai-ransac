@@ -17,9 +17,11 @@ private val executor = OperationExecutor(resourcesPathname)
 
 fun main(args: Array<String>) {
 //    executor.savePairs("haraff/$image1", "haraff/$image2", pairsPath)
+    executor.countPairs(pairsPath)
 //    executor.saveConsistentPairs(pairsPath, consistentPairsPath, neighborhoodSize, threshold)
-    useRansacWithVerySimpleHeuristics()
-    useRansacWithSimpleHeuristics(r, R)
+//    drawSomething()
+//    useRansacWithVerySimpleHeuristics()
+//    useRansacWithSimpleHeuristics(r, R)
 }
 
 private fun drawSomething() {
