@@ -1,31 +1,30 @@
 import org.ejml.simple.SimpleMatrix
+import transform.AffineTransform
+import transform.Transform
 
-object Ransac {
+class Ransac(
+    private val transform: Transform = AffineTransform,
+    private val heuristics: Heuristics = VerySimpleHeuristics
+) {
 
     fun filterWithRansac(
         pairs: List<Pair<Point, Point>>,
         maxError: Int,
-        iterationsCount: Int,
-        heuristics: Heuristics
+        iterationsCount: Int
     ): List<Pair<Point, Point>> {
-        val model = bestModel(pairs, maxError, iterationsCount, heuristics)
+        val model = bestModel(pairs, maxError, iterationsCount)
         return pairs.filter {
             modelError(model, it) < maxError
         }
     }
 
-    fun bestModel(
-        pairs: List<Pair<Point, Point>>,
-        maxError: Int,
-        iterationsCount: Int,
-        heuristics: Heuristics
-    ): SimpleMatrix {
+    fun bestModel(pairs: List<Pair<Point, Point>>, maxError: Int, iterationsCount: Int): SimpleMatrix {
         var bestModel: SimpleMatrix? = null
         var bestScore = 0
         repeat(iterationsCount) {
             var model: SimpleMatrix? = null
             while (model == null) {
-                model = affineTransform(pairs, heuristics)
+                model = transform.model(pairs, heuristics)
             }
             var score = 0
             for (data in pairs) {
@@ -42,68 +41,6 @@ object Ransac {
         return bestModel!!
     }
 
-    private fun perspectiveTransform(pairs: List<Pair<Point, Point>>): SimpleMatrix? {
-        TODO()
-    }
-
-    private fun affineTransform(pairs: List<Pair<Point, Point>>, heuristics: Heuristics): SimpleMatrix? {
-        val selectedPairs = heuristics.selectedPairs(pairs)
-        val point1OfFirst = selectedPairs[0].first
-        val point2OfFirst = selectedPairs[1].first
-        val point3OfFirst = selectedPairs[2].first
-        val point1OfSecond = selectedPairs[0].second
-        val point2OfSecond = selectedPairs[1].second
-        val point3OfSecond = selectedPairs[2].second
-        val firstMatrix = SimpleMatrix(
-            6, 6, true,
-            doubleArrayOf(
-                point1OfFirst.x, point1OfFirst.y, 1.0, 0.0, 0.0, 0.0,
-                point2OfFirst.x, point2OfFirst.y, 1.0, 0.0, 0.0, 0.0,
-                point3OfFirst.x, point3OfFirst.y, 1.0, 0.0, 0.0, 0.0,
-                0.0, 0.0, 0.0, point1OfFirst.x, point1OfFirst.y, 1.0,
-                0.0, 0.0, 0.0, point2OfFirst.x, point2OfFirst.y, 1.0,
-                0.0, 0.0, 0.0, point3OfFirst.x, point3OfFirst.y, 1.0
-            )
-        )
-        val secondMatrix = SimpleMatrix(
-            6, 1, true,
-            doubleArrayOf(
-                point1OfSecond.x,
-                point2OfSecond.x,
-                point3OfSecond.x,
-                point1OfSecond.y,
-                point2OfSecond.y,
-                point3OfSecond.y
-            )
-        )
-        return affineTransform(firstMatrix, secondMatrix)
-    }
-
-    private fun affineTransform(firstMatrix: SimpleMatrix, secondMatrix: SimpleMatrix): SimpleMatrix? =
-        try {
-            val resultOfMultiplication = firstMatrix.invert().mult(secondMatrix)
-            affineTransform(resultOfMultiplication)
-        } catch (e: Exception) {
-            null
-        }
-
-    private fun affineTransform(vector: SimpleMatrix): SimpleMatrix {
-        val a = vector[0]
-        val b = vector[1]
-        val c = vector[2]
-        val d = vector[3]
-        val e = vector[4]
-        val f = vector[5]
-        return SimpleMatrix(
-            3, 3, true,
-            doubleArrayOf(
-                a, b, c,
-                d, e, f,
-                0.0, 0.0, 1.0
-            )
-        )
-    }
-
     private fun modelError(model: SimpleMatrix, data: Pair<Point, Point>): Double {
         val x = data.first.x
         val y = data.first.y
@@ -116,8 +53,9 @@ object Ransac {
             )
         )
         val resultMatrix = model.mult(secondMatrix)
-        val u = resultMatrix[0]
-        val v = resultMatrix[1]
+        val t = resultMatrix[2]
+        val u = resultMatrix[0] / t
+        val v = resultMatrix[1] / t
         val realU = data.second.x
         val realV = data.second.y
         val distanceSquare = Math.pow(u - realU, 2.0) + Math.pow(v - realV, 2.0)

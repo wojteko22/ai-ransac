@@ -6,7 +6,7 @@ private const val neighborhoodSize = 5
 private const val threshold = 0.6
 private val pairsFileName = names[1]
 private const val r = 4.0
-private const val R = 220.0
+private const val R = 240.0
 private const val maxError = 20
 private const val iterationsCount = 1000
 
@@ -36,8 +36,7 @@ private fun drawSomething(pairsPath: String) {
 }
 
 private fun useRansacWithVerySimpleHeuristics() {
-    val heuristics = VerySimpleHeuristics()
-    val pairsPath = useRansac(heuristics)
+    val pairsPath = useRansac(VerySimpleHeuristics)
     drawRansacLines(pairsPath)
 }
 
@@ -49,7 +48,8 @@ private fun useRansacWithSimpleHeuristics(r: Double, R: Double) {
 
 private fun useRansac(heuristics: Heuristics, pathSuffix: String = ""): String {
     val destPath = "ransac/${pairsFileName}_m=$maxError,i=$iterationsCount$pathSuffix"
-    executor.useRansac(pairsPath, maxError, iterationsCount, destPath, heuristics)
+    val ransac = Ransac(heuristics = heuristics)
+    executor.useRansac(pairsPath, maxError, iterationsCount, destPath, ransac)
     return destPath
 }
 
