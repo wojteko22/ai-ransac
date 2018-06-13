@@ -1,12 +1,12 @@
 package transform
 
-import org.ejml.simple.SimpleMatrix
-import Point
 import Heuristics
+import Point
+import org.ejml.simple.SimpleMatrix
 
-abstract class Transform {
+abstract class Transform(protected val heuristics: Heuristics) {
 
-    abstract fun model(pairs: List<Pair<Point, Point>>, heuristics: Heuristics): SimpleMatrix?
+    abstract fun model(pairs: List<Pair<Point, Point>>): SimpleMatrix?
 
     protected fun model(firstMatrix: SimpleMatrix, secondMatrix: SimpleMatrix): SimpleMatrix? =
         try {

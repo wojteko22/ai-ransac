@@ -1,14 +1,24 @@
 import kotlin.system.measureTimeMillis
+import transform.AffineTransform
 
 private val names = listOf("kaczka", "kubek", "muza", "mysz", "radek")
 
+private val pairsFileName = names[1]
+
 private const val neighborhoodSize = 5
 private const val threshold = 0.6
-private val pairsFileName = names[1]
-private const val r = 4.0
-private const val R = 240.0
+
 private const val maxError = 20
 private const val iterationsCount = 1000
+
+private const val r = 4.0
+private const val R = 240.0
+
+//private val heuristics: Heuristics = SimpleHeuristics(r, R)
+private val heuristics: Heuristics = VerySimpleHeuristics
+
+//private val transform = AffineTransform(heuristics)
+private val transform = PerspectiveTransform(heuristics)
 
 private val pairsPath = "all/$pairsFileName"
 private val image1 = "${pairsFileName}1.png"
@@ -22,8 +32,7 @@ fun main(args: Array<String>) {
 //    executor.saveConsistentPairs(pairsPath, consistentPairsPath, neighborhoodSize, threshold)
 //    executor.countPairs(consistentPairsPath)
 //    drawSomething(consistentPairsPath)
-//    measure { useRansacWithVerySimpleHeuristics() }
-    measure { useRansacWithSimpleHeuristics(r, R) }
+    measure { makeRansacImage() }
 }
 
 private fun measure(function: () -> Unit) {
@@ -35,24 +44,10 @@ private fun drawSomething(pairsPath: String) {
     executor.drawLines("images/$image1", "images/$image2", pairsPath)
 }
 
-private fun useRansacWithVerySimpleHeuristics() {
-    val pairsPath = useRansac(VerySimpleHeuristics)
-    drawRansacLines(pairsPath)
-}
-
-private fun useRansacWithSimpleHeuristics(r: Double, R: Double) {
-    val heuristics = SimpleHeuristics(r, R)
-    val pairsPath = useRansac(heuristics, ",r=$r,R=$R")
-    drawRansacLines(pairsPath)
-}
-
-private fun useRansac(heuristics: Heuristics, pathSuffix: String = ""): String {
+private fun makeRansacImage() {
+    val pathSuffix = if (heuristics is SimpleHeuristics) ",r=$r,R=$R" else ""
     val destPath = "ransac/${pairsFileName}_m=$maxError,i=$iterationsCount$pathSuffix"
-    val ransac = Ransac(heuristics = heuristics)
+    val ransac = Ransac(transform)
     executor.useRansac(pairsPath, maxError, iterationsCount, destPath, ransac)
-    return destPath
-}
-
-private fun drawRansacLines(pairsPath: String) {
-    executor.drawLines("images/$image1", "images/$image2", pairsPath)
+    executor.drawLines("images/$image1", "images/$image2", destPath)
 }

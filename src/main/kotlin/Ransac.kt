@@ -1,11 +1,8 @@
 import org.ejml.simple.SimpleMatrix
-import transform.AffineTransform
 import transform.Transform
+import transform.AffineTransform
 
-class Ransac(
-    private val transform: Transform = AffineTransform,
-    private val heuristics: Heuristics = VerySimpleHeuristics
-) {
+class Ransac(private val transform: Transform = AffineTransform()) {
 
     fun filterWithRansac(
         pairs: List<Pair<Point, Point>>,
@@ -24,7 +21,7 @@ class Ransac(
         repeat(iterationsCount) {
             var model: SimpleMatrix? = null
             while (model == null) {
-                model = transform.model(pairs, heuristics)
+                model = transform.model(pairs)
             }
             var score = 0
             for (data in pairs) {

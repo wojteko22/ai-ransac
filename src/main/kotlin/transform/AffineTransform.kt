@@ -2,11 +2,12 @@ package transform
 
 import Heuristics
 import Point
+import VerySimpleHeuristics
 import org.ejml.simple.SimpleMatrix
 
-object AffineTransform : Transform() {
+class AffineTransform(heuristics: Heuristics = VerySimpleHeuristics) : Transform(heuristics) {
 
-    override fun model(pairs: List<Pair<Point, Point>>, heuristics: Heuristics): SimpleMatrix? {
+    override fun model(pairs: List<Pair<Point, Point>>): SimpleMatrix? {
         val selectedPairs = heuristics.selectedPairs(pairs)
         val point1OfFirst = selectedPairs[0].first
         val point2OfFirst = selectedPairs[1].first
