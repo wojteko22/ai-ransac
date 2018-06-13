@@ -1,3 +1,4 @@
+import transform.Transform
 import java.awt.Color
 import java.awt.image.BufferedImage
 import kotlin.math.roundToInt
@@ -10,11 +11,6 @@ class OperationExecutor(rootPathname: String) {
         val pairs = io.pointsPairs("$pairsFileName.json")
         val consistentPairs = PairsProcessor.consistentPairs(pairs, neighborhoodSize, threshold)
         io.save("$destFileName.json", consistentPairs)
-    }
-
-    fun countPairs(pairsFileName: String) {
-        val pairs = io.pointsPairs("$pairsFileName.json")
-        println(pairs.size)
     }
 
     fun savePairs(fileName1: String, fileName2: String, resultFileName: String) {
@@ -34,6 +30,7 @@ class OperationExecutor(rootPathname: String) {
             drawImage(secondImage, 0, firstImage.height, null)
             color = Color.RED
             val pairs = io.pointsPairs("$pairsFileName.json")
+            println("Pairs count: ${pairs.size}")
             pairs.forEach {
                 val firstPoint = it.first
                 val secondPoint = it.second
@@ -53,11 +50,11 @@ class OperationExecutor(rootPathname: String) {
         maxError: Int,
         iterationsCount: Int,
         destPath: String,
-        ransac: Ransac
+        transform: Transform
     ) {
         val pointsPairs = io.pointsPairs("$pairsFileName.json")
+        val ransac = Ransac(transform)
         val newPairs = ransac.filterWithRansac(pointsPairs, maxError, iterationsCount)
-        println("Pairs count: ${newPairs.size}")
         io.saveJson(destPath, newPairs)
     }
 }

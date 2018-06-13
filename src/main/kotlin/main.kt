@@ -27,11 +27,17 @@ private const val resourcesPathname = "src/main/resources"
 private val executor = OperationExecutor(resourcesPathname)
 
 fun main(args: Array<String>) {
-//    executor.savePairs("haraff/$image1", "haraff/$image2", pairsPath)
-//    executor.saveConsistentPairs(pairsPath, consistentPairsPath, neighborhoodSize, threshold)
-//    executor.countPairs(consistentPairsPath)
-//    drawSomething(consistentPairsPath)
-    measure { makeRansacImage() }
+    measure {
+//        executor.savePairs("haraff/$image1", "haraff/$image2", pairsPath)
+//        drawPairs(pairsPath)
+//        makeConsistentPairsImage()
+//        makeRansacImage()
+    }
+}
+
+private fun makeConsistentPairsImage() {
+    executor.saveConsistentPairs(pairsPath, consistentPairsPath, neighborhoodSize, threshold)
+    drawPairs(consistentPairsPath)
 }
 
 private fun measure(function: () -> Unit) {
@@ -39,14 +45,13 @@ private fun measure(function: () -> Unit) {
     println("Millis: $millis")
 }
 
-private fun drawSomething(pairsPath: String) {
-    executor.drawLines("images/$image1", "images/$image2", pairsPath)
-}
-
 private fun makeRansacImage() {
     val pathSuffix = if (heuristics is SimpleHeuristics) ",r=$r,R=$R" else ""
     val destPath = "ransac/${pairsFileName}_m=$maxError,i=$iterationsCount$pathSuffix"
-    val ransac = Ransac(transform)
-    executor.useRansac(pairsPath, maxError, iterationsCount, destPath, ransac)
-    executor.drawLines("images/$image1", "images/$image2", destPath)
+    executor.useRansac(pairsPath, maxError, iterationsCount, destPath, transform)
+    drawPairs(destPath)
+}
+
+private fun drawPairs(pairsPath: String) {
+    executor.drawLines("images/$image1", "images/$image2", pairsPath)
 }
