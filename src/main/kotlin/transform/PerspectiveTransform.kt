@@ -1,3 +1,5 @@
+import heuristics.Heuristics
+import heuristics.VerySimpleHeuristics
 import org.ejml.simple.SimpleMatrix
 import transform.Transform
 

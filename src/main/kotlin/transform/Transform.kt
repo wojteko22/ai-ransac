@@ -1,6 +1,6 @@
 package transform
 
-import Heuristics
+import heuristics.Heuristics
 import Point
 import org.ejml.simple.SimpleMatrix
 

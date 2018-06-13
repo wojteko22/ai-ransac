@@ -1,8 +1,8 @@
 package transform
 
-import Heuristics
+import heuristics.Heuristics
+import heuristics.VerySimpleHeuristics
 import Point
-import VerySimpleHeuristics
 import org.ejml.simple.SimpleMatrix
 
 class AffineTransform(heuristics: Heuristics = VerySimpleHeuristics) : Transform(heuristics) {

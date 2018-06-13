@@ -1,3 +1,7 @@
+package heuristics
+
+import Point
+
 class SimpleHeuristics(r: Double, R: Double) : Heuristics {
 
     private val rSquare = Math.pow(r, 2.0)

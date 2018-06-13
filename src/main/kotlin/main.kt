@@ -1,4 +1,6 @@
-import kotlin.system.measureTimeMillis
+import heuristics.Heuristics
+import heuristics.SimpleHeuristics
+import heuristics.VerySimpleHeuristics
 
 private val names = listOf("kaczka", "kubek", "muza", "mysz", "radek")
 
@@ -38,11 +40,6 @@ fun main(args: Array<String>) {
 private fun makeConsistentPairsImage() {
     executor.saveConsistentPairs(pairsPath, consistentPairsPath, neighborhoodSize, threshold)
     drawPairs(consistentPairsPath)
-}
-
-private fun measure(function: () -> Unit) {
-    val millis = measureTimeMillis { function() }
-    println("Millis: $millis")
 }
 
 private fun makeRansacImage() {
