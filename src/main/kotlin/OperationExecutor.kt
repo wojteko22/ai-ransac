@@ -57,7 +57,7 @@ class OperationExecutor(rootPathname: String) {
     ) {
         val pointsPairs = io.pointsPairs("$pairsFileName.json")
         val newPairs = ransac.filterWithRansac(pointsPairs, maxError, iterationsCount)
-        println(newPairs.size)
+        println("Pairs count: ${newPairs.size}")
         io.saveJson(destPath, newPairs)
     }
 }

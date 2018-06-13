@@ -2,7 +2,7 @@ import kotlin.system.measureTimeMillis
 
 private val names = listOf("kaczka", "kubek", "muza", "mysz", "radek")
 
-private val pairsFileName = names[1]
+private val pairsFileName = names[4]
 
 private const val neighborhoodSize = 5
 private const val threshold = 0.6
@@ -36,7 +36,7 @@ fun main(args: Array<String>) {
 
 private fun measure(function: () -> Unit) {
     val millis = measureTimeMillis { function() }
-    println("millis: $millis")
+    println("Millis: $millis")
 }
 
 private fun drawSomething(pairsPath: String) {
