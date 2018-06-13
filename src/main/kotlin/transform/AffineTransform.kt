@@ -7,8 +7,10 @@ import org.ejml.simple.SimpleMatrix
 
 class AffineTransform(heuristics: Heuristics = VerySimpleHeuristics) : Transform(heuristics) {
 
+    override val pointsCount = 3
+
     override fun model(pairs: List<Pair<Point, Point>>): SimpleMatrix? {
-        val selectedPairs = heuristics.selectedPairs(pairs)
+        val selectedPairs = heuristics.selectedPairs(pairs, pointsCount)
         val point1OfFirst = selectedPairs[0].first
         val point2OfFirst = selectedPairs[1].first
         val point3OfFirst = selectedPairs[2].first

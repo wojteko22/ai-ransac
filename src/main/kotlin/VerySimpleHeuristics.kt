@@ -1,4 +1,5 @@
 object VerySimpleHeuristics : Heuristics {
 
-    override fun selectedPairs(pairs: List<Pair<Point, Point>>): List<Pair<Point, Point>> = pairs.shuffled()
+    override fun selectedPairs(pairs: List<Pair<Point, Point>>, pointsCount: Int): List<Pair<Point, Point>> =
+        pairs.shuffled()
 }

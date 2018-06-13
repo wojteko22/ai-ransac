@@ -1,3 +1,3 @@
 interface Heuristics {
-    fun selectedPairs(pairs: List<Pair<Point, Point>>): List<Pair<Point, Point>>
+    fun selectedPairs(pairs: List<Pair<Point, Point>>, pointsCount: Int): List<Pair<Point, Point>>
 }

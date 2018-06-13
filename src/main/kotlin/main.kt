@@ -1,5 +1,4 @@
 import kotlin.system.measureTimeMillis
-import transform.AffineTransform
 
 private val names = listOf("kaczka", "kubek", "muza", "mysz", "radek")
 
@@ -12,7 +11,7 @@ private const val maxError = 20
 private const val iterationsCount = 1000
 
 private const val r = 4.0
-private const val R = 240.0
+private const val R = 700.0
 
 //private val heuristics: Heuristics = SimpleHeuristics(r, R)
 private val heuristics: Heuristics = VerySimpleHeuristics

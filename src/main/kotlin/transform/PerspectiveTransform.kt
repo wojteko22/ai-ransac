@@ -3,8 +3,10 @@ import transform.Transform
 
 class PerspectiveTransform(heuristics: Heuristics = VerySimpleHeuristics) : Transform(heuristics) {
 
+    override val pointsCount = 4
+
     override fun model(pairs: List<Pair<Point, Point>>): SimpleMatrix? {
-        val selectedPairs = heuristics.selectedPairs(pairs)
+        val selectedPairs = heuristics.selectedPairs(pairs, pointsCount)
         val point1OfFirst = selectedPairs[0].first
         val point2OfFirst = selectedPairs[1].first
         val point3OfFirst = selectedPairs[2].first
